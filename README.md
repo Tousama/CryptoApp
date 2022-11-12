@@ -29,6 +29,6 @@ This project is an application made with react-native that contains cryptocurren
 - React-natvie: https://reactnative.dev
 - Expo: https://expo.dev
 
-##Video
+## Video
 https://user-images.githubusercontent.com/16278872/201484766-fc1df0ce-3bc0-47bc-9469-363c15cbdd4e.mp4
 
