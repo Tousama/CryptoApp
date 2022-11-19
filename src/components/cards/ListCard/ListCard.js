@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import styles from "./ListCard.style";
 
-const ListCard = ({stock, onSelect}) => {
+const ListCard = ({ stock, onSelect }) => {
     const timeStampToDate = (time) => {
         try {
             let date = new Date(time);
@@ -12,7 +12,7 @@ const ListCard = ({stock, onSelect}) => {
             console.log("Catche girdi");
         }
     };
-    return(
+    return (
         <TouchableWithoutFeedback onPress={onSelect}>
             <View style={styles.container}>
                 <Text style={styles.stockName}>{stock.symbol}</Text>
@@ -25,7 +25,7 @@ const ListCard = ({stock, onSelect}) => {
                 <Text style={styles.stockTime}>{timeStampToDate(stock.openTime)}</Text>
             </View>
         </TouchableWithoutFeedback>
-        
+
     );
 };
 

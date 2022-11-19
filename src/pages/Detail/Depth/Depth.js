@@ -1,36 +1,35 @@
-import { STOCKS_DEPTH } from "@env";
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
+import { useSelector } from "react-redux";
 import DepthCard from "../../../components/cards/DepthCard";
 import Loading from '../../../components/Loading';
-import useFetch from '../../../hooks/useFetch';
 import styles from "./Depth.style";
+useSelector;
 
-const Depth = ({route}) => {
+const Depth = ({ route }) => {
     const symbol = route.params.symbol;
-    const {data, loading} = useFetch(STOCKS_DEPTH+`?symbol=${symbol}`);
+    const depth = useSelector(state => state.stocksDepth).data;
+    const renderStock = ({ item }) => <DepthCard stock={item} />
 
-    const renderStock = ({item}) => <DepthCard stock={item}/>
-
-    if (data.length == 0){
-        return <Loading/>
+    if (depth.length == 0) {
+        return <Loading />
     }
-    return(
+    return (
         <View style={styles.container}>
             <Text style={styles.title}>{symbol} DEPTH</Text>
             <View style={styles.info}>
-            <Text style={styles.asks}>ASKS</Text>
-            <Text style={styles.bids}>BIDS</Text>
+                <Text style={styles.asks}>ASKS</Text>
+                <Text style={styles.bids}>BIDS</Text>
             </View>
             <View style={styles.innerContainer}>
-                    <FlatList
-                        data={data.asks}
-                        renderItem={renderStock}
-                        />
-                    <FlatList
-                        data={data.bids}
-                        renderItem={renderStock}
-                        />
+                <FlatList
+                    data={depth.asks}
+                    renderItem={renderStock}
+                />
+                <FlatList
+                    data={depth.bids}
+                    renderItem={renderStock}
+                />
             </View>
         </View>
     );
