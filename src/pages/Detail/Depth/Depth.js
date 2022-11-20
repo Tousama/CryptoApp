@@ -1,4 +1,3 @@
-import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { useSelector } from "react-redux";
 import DepthCard from "../../../components/cards/DepthCard";
@@ -6,11 +5,15 @@ import Loading from '../../../components/Loading';
 import styles from "./Depth.style";
 useSelector;
 
+//Depth page
 const Depth = ({ route }) => {
+    //Selected symbol parameter from Detail page
     const symbol = route.params.symbol;
+    // Obtain Depth data with redux-toolkit thunk
     const depth = useSelector(state => state.stocksDepth).data;
+    // Render DepthCard in Flatlist
     const renderStock = ({ item }) => <DepthCard stock={item} />
-
+    //Depth loading screen
     if (depth.length == 0) {
         return <Loading />
     }

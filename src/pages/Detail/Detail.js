@@ -1,52 +1,38 @@
-import { STOCKS_DEPTH, STOCKS_HISTORICAL_DATA } from "@env";
+import { STOCKS_DEPTH } from "@env";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Dimensions, Image, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getStocksDepth } from "../../components/redux/features/stocksDepthSlice";
-import { getStocksHistoricalData } from "../../components/redux/features/stocksHistoricalDataSlice";
 import Depth from "./Depth";
 import HistoricalData from "./HistoricalData";
 import Price from "./Price";
-/*
-    2- Last trades kısmı api'dan çekilecek
-    3- Uzun listelerde bir şekilde kaçıncı array'de olduğumuzu gösteren bir gösterge olabilir??(Zor olduğunun farkındayım)
-    4- Uzun listelerde bir button eklenerek daha hızlı aşağıya inilmesi sağlanabilir.
-    5- Navigation'ların header kısmı düzenlenebilir.
-    6- Değerler yenilendiği zaman yükselme olursa yeşil yanıp söner, düşme olursa kırmızı yanıp söner.
-    7- Flatlist dinamik bir şekilde liste elemanlarının yeri değişebilir mi??(Belki çözümü vardır.)
-    8- 1 saat, 8 saat, 1 gün, 1 hafta, 1 ay, 1 yıllık değişimlerinin gösterilmesi..
-*/
 
+// created BottomTabNavigator
 const Tab = createBottomTabNavigator();
-
+// height variable for BottomTab height
 const height = Dimensions.get("window").height;
 
+// Detail page
 const Detail = ({ route }) => {
+    // Selected symbol parameter from List page
     const symbol = route.params.symbol;
-
     const dispatch = useDispatch();
-
+    // Obtain Depth data with redux-toolkit thunk 
     const depth = useSelector(state => state.stocksDepth).data;
-
-    const historicalData = useSelector(state => state.stocksHistoricalData).data;
-
-    /* console.log(historicalData); */
+    // Data updated every 10 seconds.
     useEffect(() => {
         const interval = setInterval(() => {
             dispatch(getStocksDepth(STOCKS_DEPTH + "?symbol=" + symbol));
         }, 10000);
-        const interval2 = setInterval(() => {
-            dispatch(getStocksHistoricalData(STOCKS_HISTORICAL_DATA + "?symbol=" + symbol + "&interval=1m"));
-        }, 10000);
-        return () => clearInterval(interval, interval2)
+        return () => clearInterval(interval)
     }, []);
 
     return (
-        <Tab.Navigator initialRouteName="Price"
-            screenOptions={{ headerShown: false }}
-        >
+        // Tab Navigator has 3 pages. Price-HistoricalData-Depth
+        <Tab.Navigator initialRouteName="Price" screenOptions={{ headerShown: false }}>
             <Tab.Screen name="Price" component={Price} initialParams={{ symbol: symbol }} options={{
+                //Tab screen options
                 tabBarIcon: ({ focused }) => {
                     return (
                         <View>
@@ -65,6 +51,7 @@ const Detail = ({ route }) => {
                 tabBarActiveTintColor: "#000000",
             }} />
             <Tab.Screen name="HistoricalData" component={HistoricalData} initialParams={{ symbol: symbol }} options={{
+                // Tab screen options
                 tabBarIcon: ({ focused }) => {
                     return (
                         <View>
@@ -83,6 +70,7 @@ const Detail = ({ route }) => {
                 tabBarActiveTintColor: "#000000",
             }} />
             <Tab.Screen name="Depth" component={Depth} initialParams={{ symbol: symbol }} options={{
+                // Tab screen options
                 tabBarIcon: ({ focused }) => {
                     return (
                         <View>

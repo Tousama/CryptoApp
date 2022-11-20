@@ -4,6 +4,7 @@ import axios from "axios";
 export const getStocksHistoricalData = createAsyncThunk("stocksHistoricalData/getData", async (url, { rejectWithValue }) => {
     try {
         const { data } = await axios.get(url);
+        /* console.log(url); */
         return data;
     }
     catch (error) {
@@ -24,6 +25,7 @@ const stocksHistoricalDataSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getStocksHistoricalData.fulfilled, (state, action) => {
             state.data = action.payload;
+            /* console.log(action.meta); */
         })
     },
 });

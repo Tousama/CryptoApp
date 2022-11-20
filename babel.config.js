@@ -10,6 +10,7 @@ module.exports = function (api) {
       "safe": false,
       "allowUndefined": true
     }],
+      ['babel-plugin-root-import', { paths: [{ rootPathPrefix: '~', rootPathSuffix: 'src' }] }]
     ],
   };
 };

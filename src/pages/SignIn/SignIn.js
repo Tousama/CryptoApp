@@ -1,6 +1,6 @@
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import styles from "./SignIn.style";
 
@@ -18,9 +18,12 @@ const SignIn = ({ navigation }) => {
         setPassword(text);
     };
 
+    AsyncStorage.getItem("@mail").then((value) => setMailCheck(value))
+    AsyncStorage.getItem("@password").then((value) => setPasswordCheck(value))
+
     const handleCheckSubmit = () => {
-        AsyncStorage.getItem("@mail").then((value) => setMailCheck(value))
-        AsyncStorage.getItem("@password").then((value) => setPasswordCheck(value))
+
+
         if (mail && password) {
             if (mail == mailCheck && password == passwordCheck) {
                 setMail("");

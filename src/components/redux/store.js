@@ -10,7 +10,7 @@ const store = configureStore({
         stocksHistoricalData: stocksHistoricalData.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-        immutableCheck: false,
+        immutableCheck: true,
         serializableCheck: false,
     })
 });
